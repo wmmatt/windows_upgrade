@@ -9,8 +9,8 @@ $file = "$($dir)\WindowsUpgrade.exe"
 # Get the correct Upgrade Assistant
 $os = (Get-ComputerInfo).OSName
 switch -Wildcard ($os) {
-    '*11*' { $url = 'https://go.microsoft.com/fwlink/?linkid=2171764 ' }
-    '*10*' { $url = 'https://go.microsoft.com/fwlink/?LinkID=799445 ' }
+    '*11*' { $url = 'https://go.microsoft.com/fwlink/?linkid=2171764 '; 'Detected Windows 11' }
+    '*10*' { $url = 'https://go.microsoft.com/fwlink/?LinkID=799445 '; 'Detected Windows 10' }
     Default { Return 'Unsupported OS' }
 }
 
@@ -22,6 +22,7 @@ $webClient = New-Object System.Net.WebClient
 $webClient.DownloadFile($url,$file)
 
 # Install latest Windows 10/11
+'Starting upgrade process...'
 Start-Process -FilePath $file -ArgumentList '/quietinstall /skipeula /auto upgrade /copylogs $dir'
 
 <#
